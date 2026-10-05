@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>你要不要继续和我在一起</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:#fff8fa;
+  color:#3d3034;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.card{
+  width:min(88vw,430px);
+  text-align:center;
+  position:relative;
+}
+.heart{
+  font-size:38px;
+  margin-bottom:20px;
+  animation:beat 1.4s ease-in-out infinite;
+}
+h1{
+  margin:0;
+  font-size:25px;
+  line-height:1.55;
+  font-weight:650;
+  letter-spacing:1px;
+}
+.sub{
+  margin-top:11px;
+  color:#9b858b;
+  font-size:14px;
+  letter-spacing:2px;
+}
+.buttons{
+  margin-top:34px;
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  min-height:48px;
+  position:relative;
+}
+button{
+  border:0;
+  border-radius:999px;
+  padding:13px 28px;
+  font-size:15px;
+  font-family:inherit;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .18s,opacity .18s;
+}
+.yes{
+  background:#e99aaa;
+  color:white;
+  box-shadow:0 7px 18px rgba(233,154,170,.25);
+}
+.no{
+  background:#eee7e9;
+  color:#786a6e;
+}
+.message{
+  margin-top:25px;
+  min-height:50px;
+  font-size:15px;
+  line-height:1.8;
+  color:#8e777e;
+}
+.float{
+  position:fixed;
+  pointer-events:none;
+  opacity:.55;
+  animation:float 7s linear infinite;
+  font-size:18px;
+}
+@keyframes beat{50%{transform:scale(1.12)}}
+@keyframes float{
+  from{transform:translateY(30px);opacity:0}
+  15%{opacity:.55}
+  85%{opacity:.55}
+  to{transform:translateY(-100vh);opacity:0}
+}
+.success{
+  animation:pop .5s ease;
+}
+@keyframes pop{
+  0%{transform:scale(.85);opacity:.3}
+  70%{transform:scale(1.05)}
+  100%{transform:scale(1);opacity:1}
+}
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <div class="heart">♡</div>
+  <h1>你到底要不要跟我继续在一起啊？</h1>
+  <div class="sub">黑龙江人你好好回答</div>
+
+  <div class="buttons" id="buttons">
+    <button class="yes" onclick="yes()">当然要</button>
+    <button class="no" id="no" onclick="nope()">不要</button>
+  </div>
+  <div class="message" id="message"></div>
+</div>
+
+<script>
+let count=0;
+const noTexts=[
+  "你确定？",
+  "黑龙江人你好好回答。",
+  "再想想？",
+  "不许点这个。",
+  "你是不是点错了？",
+  "重新回答。",
+  "我不接受这个答案。",
+  "最后一次机会。"
+];
+
+function nope(){
+  count++;
+  const b=document.getElementById("no");
+  const msg=document.getElementById("message");
+  msg.textContent=noTexts[Math.min(count-1,noTexts.length-1)];
+
+  if(count>=2){
+    b.style.position="fixed";
+    const pad=20;
+    const x=pad+Math.random()*(window.innerWidth-b.offsetWidth-pad*2);
+    const y=pad+Math.random()*(window.innerHeight-b.offsetHeight-pad*2);
+    b.style.left=x+"px";
+    b.style.top=y+"px";
+    b.style.transform="rotate("+(Math.random()*18-9)+"deg)";
+  }
+}
+
+function yes(){
+  const card=document.getElementById("card");
+  card.classList.add("success");
+  card.innerHTML=`
+    <div class="heart">♥</div>
+    <h1>我就知道。</h1>
+    <div class="sub">那就继续在一起吧</div>
+    <div class="message" style="margin-top:28px">
+      这次回答得很好。<br>
+      不许反悔。
+    </div>`;
+  for(let i=0;i<14;i++){
+    const f=document.createElement("div");
+    f.className="float";
+    f.textContent=Math.random()>.5?"♡":"♥";
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=(70+Math.random()*30)+"vh";
+    f.style.animationDelay=Math.random()*2+"s";
+    document.body.appendChild(f);
+  }
+}
+</script>
+</body>
+</html>
